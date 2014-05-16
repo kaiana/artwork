@@ -1,10 +1,10 @@
 # Wallpapers #
 
-#### Portuguese: ####
-Este diretório deve conter imagens que serão usadas como papel de parede do sistema.
+#### PortuguÃªs: ####
+Este diretÃ³rio deve conter imagens que serï¿½o usadas como papel de parede do sistema.
 
 #### English: ####
 This directory should contain images that will be used as wallpaper of system.
 
-#### Español: ####
-Este directorio debe contener imágenes que se utilizarán como fondo de pantalla del sistema.
+#### Espaï¿½ol: ####
+Este directorio debe contener imï¿½genes que se utilizarï¿½n como fondo de pantalla del sistema.
