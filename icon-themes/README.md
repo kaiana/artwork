@@ -1,6 +1,6 @@
 # Icon Themes #
 
-#### Portuguese: ####
+#### Português: ####
 Este diretório deve conter sugetões de temas de ícones para o sistema.
 
 #### English: ####

@@ -1,6 +1,6 @@
 # Logos #
 
-#### Portuguese: ####
+#### Português: ####
 Este diretório deve conter sugestões logotipos.
 
 #### English: ####

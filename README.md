@@ -1,6 +1,6 @@
 # Artwork #
 
-#### Portuguese: ####
+#### Português: ####
 Este é o repositório oficial do time de design do projeto Kaiana.
 
 #### English: ####
