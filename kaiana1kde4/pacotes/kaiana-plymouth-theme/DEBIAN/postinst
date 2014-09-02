@@ -20,9 +20,9 @@ case "$1" in
     configure)
 	update-alternatives \
 		--install /lib/plymouth/themes/default.plymouth default.plymouth \
-		/lib/plymouth/themes/kaiana-logo/kaiana-logo.plymouth 150 \
+		/lib/plymouth/themes/kaiana-bar/kaiana-bar/kaiana-bar.plymouth 100 \
 		--slave /lib/plymouth/themes/default.grub default.plymouth.grub \
-		/lib/plymouth/themes/kaiana-logo/kaiana-logo.grub
+		/lib/plymouth/themes/kaiana-bar/kaiana-bar/kaiana-bar.grub
 
 	if which update-initramfs >/dev/null 2>&1
 	then

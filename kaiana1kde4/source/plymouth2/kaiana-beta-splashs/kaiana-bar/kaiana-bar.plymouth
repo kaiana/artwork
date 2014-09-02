@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=kaiana-bar
+Description=kaiana-bar plugin.
+ModuleName=script
+
+[script]
+ImageDir=/lib/plymouth/themes/kaiana-bar/
+ScriptFile=/lib/plymouth/themes/kaiana-bar/kaiana-bar.script
