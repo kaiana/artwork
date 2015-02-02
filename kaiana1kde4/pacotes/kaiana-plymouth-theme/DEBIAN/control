@@ -1,8 +1,8 @@
 Package: kaiana-plymouth-theme
-Version: 1.1.0-0kaiana1.0
+Version: 1.2.0-0kaiana0
 Architecture: all
 Maintainer: Paulo Giovanni Pereira <paulusiohannes@gmail.com>
-Installed-Size: 145
+Installed-Size: 208
 Depends: plymouth, plymouth-label
 Provides: plymouth-theme
 Section: kde

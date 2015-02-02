@@ -1,0 +1,164 @@
+// -------------------------------- Assets ---------------------------------- //
+
+global.assets = [];
+if (Window.GetBitsPerPixel() == 4) {
+    assets.dot           = "images/16bit/dot.png";
+    assets.logo          = "images/16bit/logo.png";
+    assets.text_input    = "images/16bit/text-input.png";
+
+    assets.progress_rect = "images/16bit/progress-rect.png";
+} else {
+    assets.dot           = "images/dot.png";
+    assets.logo          = "images/logo.png";
+    assets.text_input    = "images/text-input.png";
+
+    assets.glow          = "images/logo-glow.png";
+}
+
+SpriteImage = fun(asset) {
+    local.sprite = Sprite();
+    sprite.image = Image(asset);
+    sprite.width = sprite.image.GetWidth();
+    sprite.height = sprite.image.GetHeight();
+    sprite.SetImage(sprite.image);
+    return sprite | global.SpriteImage;
+} | Sprite;
+
+progress = 0.0;
+progress_bar.image = Image("progress_bar.png");
+progress_bar.original_image = Image("progress_bar.png");
+progress_bar.sprite = Sprite();
+progress_bar.x = Window.GetWidth()  / 2 - progress_bar.original_image.GetWidth() / 2;
+progress_bar.y = Window.GetHeight() / 2 * 1.1  - progress_bar.image.GetHeight() / 2 + (progress_bar.image.GetHeight() - progress_bar.original_image.GetHeight()) / 2;
+progress_bar.sprite.SetPosition(progress_bar.x, progress_bar.y, 1);
+
+// --------------------------------- Logo ----------------------------------- //
+
+Logo = fun() {
+    local.logo = SpriteImage(assets.logo);
+    logo.x = Window.GetX() + Window.GetWidth() / 2 - logo.width / 2;
+    logo.y = Window.GetY() + Window.GetHeight() / 2 - logo.height / 2;
+    logo.z = 1000;
+    logo.SetPosition(logo.x, logo.y, logo.z);
+
+    if (Window.GetBitsPerPixel() == 4) {
+        logo.progress = [];
+        logo.progress.width = 153 - 6; // 153 is the fixed width of the 'Kaiana' text.
+        logo.progress.x = logo.x + 2; // 2px left margin.
+        logo.progress.y = logo.y + logo.height + 4; // 4px top margin.
+        logo.progress.z = logo.z + 1; // Lays on top of the logo background.
+        for (i = 0; i <= logo.progress.width; ++i) {
+            logo.progress[i] = SpriteImage(assets.progress_rect);
+            logo.progress[i].SetPosition(logo.progress.x + (logo.progress[i].width * (i+1)),
+                                         logo.progress.y,
+                                         logo.progress.z);
+            logo.progress[i].SetOpacity(0);
+            logo.progress.count = i+1;
+        }
+        logo.progress.head = 0;
+        logo.progress.end  = 0;
+    } else {
+        logo.glow = SpriteImage(assets.glow);
+        logo.glow.SetOpacity(0);
+        logo.glow.x = Window.GetX() + Window.GetWidth() / 2 - logo.glow.width / 2;
+        logo.glow.y = Window.GetY() + Window.GetHeight() / 2 - logo.glow.height / 2;
+        logo.glow.z = logo.z - 1;
+        logo.glow.SetPosition(logo.glow.x, logo.glow.y, logo.glow.z);
+    }
+
+    return logo | global.Logo;
+} | SpriteImage;
+
+logo = Logo();
+
+// ------------------------------- Animation -------------------------------- //
+
+Animation = fun(target) {
+    anim = [] | global.Animation;
+    anim.m_target = target;
+    anim.m_running = 0;
+    anim.m_duration = 2.5;
+    anim.m_start = 0;
+    anim.m_end = 0;
+    anim.m_reverse = 0;
+    return anim;
+} | [];
+
+Animation.Start = fun(time) {
+    m_running = 1;
+    m_start = time;
+    m_end = time + m_duration;
+};
+
+Animation.Revert = fun(time) {
+    m_reverse = !m_reverse;
+    Start(time);
+};
+
+Animation.IsReverse = fun() {
+    return m_reverse;
+};
+
+Animation.IsRunning = fun() {
+    return m_running;
+};
+
+Animation.IncreaseOpacity = fun(time) {
+    local.passed = time - m_start;
+    local.progress = passed / m_duration;
+    m_target.SetOpacity(progress);
+};
+
+Animation.DecreaseOpacity = fun(time) {
+    local.passed = time - m_start;
+    local.progress = passed / m_duration;
+    m_target.SetOpacity(1.0 - progress);
+};
+
+Animation.UpdateOpacity = fun(time) {
+    if (m_reverse)
+        DecreaseOpacity(time);
+    else
+        IncreaseOpacity(time);
+};
+
+if (Window.GetBitsPerPixel() != 4)
+    global.animation = Animation(logo.glow);
+
+// ----------------------------- Boot Progress ------------------------------ //
+
+fun boot_progress_cb(time, progress) {
+
+    if (Window.GetBitsPerPixel() == 4) {
+        if (logo.progress.head >= (logo.progress.count - 1)) {
+            ++logo.progress.end;
+            logo.progress[logo.progress.end].SetOpacity(0);
+            if (logo.progress.end >= (logo.progress.count - 1)) {
+                logo.progress.head = 0;
+                logo.progress.end  = 0;
+            }
+        } else {
+            ++logo.progress.head;
+            logo.progress[logo.progress.head].SetOpacity(1);
+        }
+    } else {
+        if (!global.animation.IsRunning())
+            global.animation.Start(time);
+
+        if (global.animation.IsRunning()) {
+            if (global.animation.m_end <= time) {
+                global.animation.Revert(time);
+            } else {
+                global.animation.UpdateOpacity(time);
+        if (progress_bar.image.GetWidth () != Math.Int (progress_bar.original_image.GetWidth () * progress))
+            global.progress = progress;
+           { progress_bar.image = progress_bar.original_image.Scale(progress_bar.original_image.GetWidth(progress_bar.original_image) * progress * 4 , progress_bar.original_image.GetHeight());
+        progress_bar.sprite.SetImage (progress_bar.image);
+           }
+           }
+        }
+     }
+  }
+
+
+Plymouth.SetBootProgressFunction (boot_progress_cb);

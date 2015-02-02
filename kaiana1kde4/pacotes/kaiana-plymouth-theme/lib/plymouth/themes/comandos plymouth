@@ -1,0 +1,18 @@
+
+1 colocar o tema na pasta /lib/plymouth/
+
+2 dar o comando para instalar
+ 
+ sudo update-alternatives --install /lib/plymouth/themes/default.plymouth default.plymouth /lib/plymouth/themes/nome do tema/nome do tema.plymouth 200
+
+3 selecionar o tema a ser usado
+ 
+ sudo update-alternatives --config default.plymouth
+ 
+4 aplicar o tema selecionado
+ 
+ sudo update-initramfs -u
+ 
+5 visualizar o tema 
+ 
+ sudo plymouthd; sudo plymouth --show-splash ; for ((I=0; I<10; I++)); do sudo plymouth --update=test$I ; sleep 1; done; sudo plymouth quit
